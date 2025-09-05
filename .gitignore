@@ -13,6 +13,7 @@ dist/
 
 # Ignore node_modules anywhere
 **/node_modules/
+**/package-lock.json
 
 # ---------------------
 # Frontend (Vite React)
@@ -29,6 +30,7 @@ frontend_vite-project/tsconfig.tsbuildinfo
 # Backend (Node.js)
 # ---------------------
 backend/tmp/
+
 backend/.env
 backend/.env.*
 backend/logs/
@@ -43,6 +45,7 @@ backend/tsconfig.tsbuildinfo
 # Templates (Optional ignores)
 # ---------------------
 templates/**/node_modules/
+
 templates/**/dist/
 templates/**/.env
 templates/**/.env.*
