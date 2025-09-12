@@ -1,75 +1,144 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 
 function Form() {
   const [dbType, setDbType] = useState('mongodb');
-  const [fields, setFields] = useState({
-    username: false,
-    password: false,
-    email: false,
-  });
+  const [authType, setAuthType] = useState('password');
 
-  const handleFieldChange = (e) => {
-    setFields({ ...fields, [e.target.name]: e.target.checked });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/generate', {
-        dbType,
-        fields,
-      }, {
-        responseType: 'blob',
+      // You can extend the payload here as needed
+      const response = await fetch('http://localhost:5000/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ dbType, authType }),
       });
 
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      if (!response.ok) throw new Error('Error generating project');
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', 'generated-project.zip');
       document.body.appendChild(link);
       link.click();
-    } catch (err) {
-        console.log(err)
-      alert('Error generating project');
+      link.remove();
+    } catch (error) {
+      alert((error as Error).message || 'Error generating project');
     }
   };
 
   return (
-    <div style={{ padding: '40px' }}>
-      <h1>Project Generator</h1>
+    <div
+      style={{
+        maxWidth: '420px',
+        margin: '50px auto',
+        padding: '30px',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+        borderRadius: '10px',
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        backgroundColor: '#fff',
+      }}
+    >
+      <h2 style={{ textAlign: 'center', marginBottom: '24px', color: '#333' }}>
+        Project Generator
+      </h2>
+
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Select Database: </label>
-          <select value={dbType} onChange={(e) => setDbType(e.target.value)}>
+        {/* Database Selection */}
+        <div style={{ marginBottom: '20px' }}>
+          <label
+            htmlFor="dbType"
+            style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}
+          >
+            Select Backend Database
+          </label>
+          <select
+            id="dbType"
+            value={dbType}
+            onChange={(e) => setDbType(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '10px 12px',
+              borderRadius: '6px',
+              border: '1px solid #ccc',
+              fontSize: '16px',
+              cursor: 'pointer',
+            }}
+          >
             <option value="mongodb">MongoDB</option>
             <option value="sql">SQL</option>
           </select>
         </div>
 
-        <div style={{ marginTop: '20px' }}>
-          <label>Select Fields:</label>
-          <div>
-            <label>
-              <input type="checkbox" name="username" checked={fields.username} onChange={handleFieldChange} />
-              Username
-            </label>
-          </div>
-          <div>
-            <label>
-              <input type="checkbox" name="password" checked={fields.password} onChange={handleFieldChange} />
-              Password
-            </label>
-          </div>
-          <div>
-            <label>
-              <input type="checkbox" name="email" checked={fields.email} onChange={handleFieldChange} />
-              Email
-            </label>
-          </div>
+        {/* Authentication Type */}
+        <div style={{ marginBottom: '30px' }}>
+          <label
+            style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}
+          >
+            Authentication Type
+          </label>
+
+          <label
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              marginRight: '24px',
+              cursor: 'pointer',
+              userSelect: 'none',
+            }}
+          >
+            <input
+              type="radio"
+              name="authType"
+              value="password"
+              checked={authType === 'password'}
+              onChange={() => setAuthType('password')}
+              style={{ marginRight: '8px' }}
+            />
+            Password-based Login
+          </label>
+
+          <label
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              cursor: 'pointer',
+              userSelect: 'none',
+            }}
+          >
+            <input
+              type="radio"
+              name="authType"
+              value="otp"
+              checked={authType === 'otp'}
+              onChange={() => setAuthType('otp')}
+              style={{ marginRight: '8px' }}
+            />
+            OTP-based Login
+          </label>
         </div>
 
-        <button type="submit" style={{ marginTop: '20px' }}>Generate Project</button>
+        <button
+          type="submit"
+          style={{
+            width: '100%',
+            padding: '12px',
+            backgroundColor: '#007bff',
+            color: '#fff',
+            fontWeight: '600',
+            fontSize: '16px',
+            borderRadius: '6px',
+            border: 'none',
+            cursor: 'pointer',
+            transition: 'background-color 0.3s ease',
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = '#0056b3')}
+          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = '#007bff')}
+        >
+          Generate Project
+        </button>
       </form>
     </div>
   );

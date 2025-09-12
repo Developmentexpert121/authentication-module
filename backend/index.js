@@ -8,48 +8,30 @@ const path = require('path');
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
-
+app.use(express.json());
 const PORT = 5000;
+
 app.post('/generate', (req, res) => {
-  console.log('Request received at /generate');
-  res.send('Generate endpoint works!');
+  const { dbType, authType } = req.body;
+
+  res.setHeader('Content-Type', 'application/zip');
+  res.setHeader('Content-Disposition', 'attachment; filename=generated-project.zip');
+
+  const archive = archiver('zip', { zlib: { level: 9 } });
+  archive.pipe(res);
+
+  let readmeContent = `# Generated Project\n\nDatabase: ${dbType}\nAuthentication: ${authType}\n`;
+  archive.append(readmeContent,{name:"README.md"});
+  const templatePath=path.join(
+    __dirname,"..","templates",dbType.toLowerCase(),authType.toLowerCase()+"based"
+  );
+    console.log("Using template from:", templatePath);
+archive.directory(path.join(templatePath, "frontend"), "frontend");
+  archive.directory(path.join(templatePath, "backend"), "backend");
+ 
+  archive.finalize();
 });
 
-// app.post('/generate', async (req, res) => {
-//   const { dbType, fields } = req.body;
-
-//   const tmpDir = path.join(__dirname, 'tmp', Date.now().toString());
-//   await fs.mkdirp(tmpDir);
-
-//   const frontendTemplate = path.join(__dirname, '../templates/frontend');
-//   await fs.copy(frontendTemplate, path.join(tmpDir, 'frontend'));
-
-//   const backendTemplate = path.join(__dirname, `../templates/${dbType}-backend`);
-//   await fs.copy(backendTemplate, path.join(tmpDir, 'backend'));
-
-//   const modelPath = path.join(tmpDir, 'backend', 'model.js');
-//   let modelContent = 'const schema = {\n';
-
-//   Object.entries(fields).forEach(([key, val]) => {
-//     if (val) modelContent += `  ${key}: String,\n`;
-//   });
-
-//   modelContent += '};\n\nmodule.exports = schema;\n';
-
-//   await fs.outputFile(modelPath, modelContent);
-
-//   res.setHeader('Content-Type', 'application/zip');
-//   res.setHeader('Content-Disposition', 'attachment; filename=project.zip');
-
-//   const archive = archiver('zip');
-//   archive.pipe(res);
-//   archive.directory(tmpDir, false);
-//   archive.finalize();
-
-//   archive.on('end', () => {
-//     fs.remove(tmpDir);
-//   });
-// });
 app.get('/', (req, res) => {
   res.send('Hello from backend');
 });
