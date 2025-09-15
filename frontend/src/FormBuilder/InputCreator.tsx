@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 
 const ALL_TYPES = [
   'text', 'email', 'number', 'password', 'date', 'time',
@@ -6,7 +6,7 @@ const ALL_TYPES = [
   'textarea', 'checkbox', 'radio'
 ];
 
-function InputCreator({ fieldData, onSave, onClose }) {
+function InputCreator({ fieldData, onSave, onClose }:any) {
   const [label, setLabel] = useState('');
   const [type, setType] = useState('text');
   const [showValidation, setShowValidation] = useState(false);
@@ -34,14 +34,14 @@ function InputCreator({ fieldData, onSave, onClose }) {
     console.log("fieldData",fieldData)
   }, [fieldData]);
 
-  const handleOptionChange = (index, value) => {
+  const handleOptionChange = (index:any, value:any) => {
     const updated = [...options];
     updated[index] = value;
     setOptions(updated);
   };
 
   const addOption = () => setOptions([...options, '']);
-  const removeOption = (index) => {
+  const removeOption = (index:any) => {
     const updated = [...options];
     updated.splice(index, 1);
     setOptions(updated);
@@ -50,7 +50,7 @@ function InputCreator({ fieldData, onSave, onClose }) {
   const isTextBased = ['text', 'email', 'password', 'textarea', 'search', 'url', 'tel'].includes(type);
   const isOptionType = ['checkbox', 'radio','select'].includes(type);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e:any) => {
     e.preventDefault();
     if (!label.trim()) {
       alert('Please enter a label.');
