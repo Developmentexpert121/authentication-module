@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import InputCreator from './InputCreator';
-
+interface Field {
+  id: string; // optional, because new fields may not have id initially
+  label?: string;
+  type?: string;
+  // add other properties your field has
+}
 function Layout() {
-  const [fields, setFields] = useState([]);
+  const [fields, setFields] = useState<Field[]>([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [creatorOpen, setCreatorOpen] = useState(false);
   const [editingField, setEditingField] = useState(null);
@@ -15,7 +20,7 @@ function Layout() {
     setShowDropdown(false);
   };
 
-  const saveField = (field) => {
+  const saveField = (field:Field) => {
     if (field.id) {
       setFields(fields.map((f) => (f.id === field.id ? field : f)));
     } else {
@@ -26,13 +31,13 @@ React.useEffect(() => {
   console.log("Updated fields:", fields);
 });
 
-  const editField = (id) => {
-    const field = fields.find((f) => f.id === id);
-    setEditingField(field);
-    setCreatorOpen(true);
-  };
+  const editField = (id: string) => {
+  const field:any = fields.find((f) => f.id === id) || null;
+  setEditingField(field);
+  setCreatorOpen(true);
+};
 
-  const deleteField = (id) => {
+  const deleteField = (id:String) => {
     setFields(fields.filter((f) => f.id !== id));
   };
 
