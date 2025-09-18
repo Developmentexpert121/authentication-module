@@ -6,7 +6,7 @@ function Form() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/generate', {
+      const response = await fetch('http://localhost:5000/gerate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ dbType, authType }),
