@@ -1,6 +1,4 @@
 
-
-
 import  { useState } from 'react';
 
 const FIELD_OPTIONS: Record<'signup' | 'signin' | 'register', string[]> = {
@@ -35,8 +33,6 @@ const FIELD_OPTIONS: Record<'signup' | 'signin' | 'register', string[]> = {
     'organization',
   ],
 };
-
-
 export default function FieldSelector() {
   const [signupFields, setSignupFields] = useState<string[]>(['email', 'password']);
   const [signinFields, setSigninFields] = useState<string[]>(['email', 'password']);
