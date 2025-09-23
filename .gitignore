@@ -47,7 +47,6 @@ backend/tsconfig.tsbuildinfo
 templates/**/node_modules/
 
 templates/**/dist/
-templates/**/.env
 
 templates/**/.DS_Store
 templates/**/.vite/
