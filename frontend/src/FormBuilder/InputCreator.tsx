@@ -5,6 +5,7 @@ const ALL_TYPES = [
   'color', 'range', 'url', 'tel', 'search', 'file',
   'textarea', 'checkbox', 'radio'
 ];
+
 function InputCreator({ fieldData, onSave, onClose }:any) {
   const [label, setLabel] = useState('');
   const [type, setType] = useState('text');
