@@ -78,7 +78,7 @@ const SignIn: React.FC = () => {
   {/* Card */}
   <div className="relative z-10 w-full max-w-md rounded-3xl bg-white/90 p-10 shadow-2xl backdrop-blur-md transition-transform duration-500 hover:scale-[1.03] hover:shadow-3xl">
     <h2 className="mb-6 text-center text-3xl font-extrabold text-indigo-700 drop-shadow-sm">
-      Sign In
+      Sign up
     </h2>
 
 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

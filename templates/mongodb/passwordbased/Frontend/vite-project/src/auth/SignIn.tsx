@@ -84,7 +84,7 @@ const SignIn: React.FC = () => {
     </h2>
 
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      {/*FIELDS_PLACEHOLDER_SIGNIN*/}
+      /*FIELDS_PLACEHOLDER_SIGNIN*/
 
       {/* Forgot Password */}
       <button
