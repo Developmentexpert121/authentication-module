@@ -10,8 +10,8 @@ function App() {
    
    <Routes>
         <Route path="/FormBuilder" element={<FormBuilder />} />
-        <Route path="/" element={<Form />} />
-        <Route path="/FieldSelector" element={<FieldSelector />} />
+        <Route path="/" element={<FieldSelector />} />
+        {/* <Route path="/FieldSelector" element={< />} /> */}
    </Routes>
    
    </>
