@@ -1,28 +1,40 @@
-const mongoose =require("mongoose")
-const SignupSchema=new  mongoose.Schema({
-    Username:{
-        type:String,
-        trim:true,
-        required:true,
-    },
-    password:{
-        type:String,
-        required:true,
+// const mongoose =require("mongoose")
+// const SignupSchema=new  mongoose.Schema({
+//     Username:{
+//         type:String,
+//         trim:true,
+//         required:true,
+//     },
+//     password:{
+//         type:String,
+//         required:true,
 
-    },
-    confirmPassword:{
-        type:String,
-        required:true,
+//     },
+//     confirmPassword:{
+//         type:String,
+//         required:true,
 
-    },
-    email:{
-        type:String,
-        required:true,
-        unique:true,
-        lowercase: true
-    },
+//     },
+//     email:{
+//         type:String,
+//         required:true,
+//         unique:true,
+//         lowercase: true
+//     },
     
 
-})
-const userModel=new mongoose.model("signupUsers",SignupSchema);
-module.exports=userModel;
+// })
+// const userModel=new mongoose.model("signupUsers",SignupSchema);
+// module.exports=userModel;
+
+
+
+const mongoose = require("mongoose");
+
+const SignupSchema = new mongoose.Schema({
+  /*FIELDS_PLACEHOLDER*/
+});
+
+
+const userModel = new mongoose.model("signupUsers", SignupSchema);
+module.exports = userModel;
