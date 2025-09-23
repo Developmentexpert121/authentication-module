@@ -5,7 +5,7 @@
 .DS_Store
 Thumbs.db
 .env
-.env.*
+
 *.zip
 .cache/
 tmp/
@@ -21,7 +21,7 @@ dist/
 frontend_vite-project/dist/
 frontend_vite-project/.vite/
 frontend_vite-project/.env
-frontend_vite-project/.env.*
+
 
 # Optional if using TypeScript
 frontend_vite-project/tsconfig.tsbuildinfo
@@ -32,7 +32,7 @@ frontend_vite-project/tsconfig.tsbuildinfo
 backend/tmp/
 
 backend/.env
-backend/.env.*
+
 backend/logs/
 backend/debug.log
 
@@ -48,7 +48,7 @@ templates/**/node_modules/
 
 templates/**/dist/
 templates/**/.env
-templates/**/.env.*
+
 templates/**/.DS_Store
 templates/**/.vite/
 templates/**/build/
