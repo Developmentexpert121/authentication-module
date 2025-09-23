@@ -1,9 +1,10 @@
-
-
-
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../redux/store';
-import { sendOtp, verifyOtp, resetState } from '../redux/EmailverificationSilce';
+import {
+  sendOtp,
+  verifyOtp,
+  resetState,
+} from '../redux/EmailverificationSilce';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
@@ -18,13 +19,22 @@ type FormValues = {
 
 // ✅ Schema for just email
 const emailSchema = yup.object().shape({
-  email: yup.string().email('Invalid email format').required('Email is required'),
+  email: yup
+    .string()
+    .email('Invalid email format')
+    .required('Email is required'),
 });
 
 // ✅ Schema for email + otp
 const otpSchema = yup.object().shape({
-  email: yup.string().email('Invalid email format').required('Email is required'),
-  otp: yup.string().required('OTP is required').length(6, 'OTP must be 6 digits'),
+  email: yup
+    .string()
+    .email('Invalid email format')
+    .required('Email is required'),
+  otp: yup
+    .string()
+    .required('OTP is required')
+    .length(6, 'OTP must be 6 digits'),
 });
 
 const EmailVerification: React.FC = () => {
@@ -32,14 +42,10 @@ const EmailVerification: React.FC = () => {
   const navigate = useNavigate();
 
   const { loading, error, message, verified } = useAppSelector(
-    state => state.emailVerification
+    (state) => state.emailVerification
   );
 
-  const {
-    register,
-    getValues,
-    reset,
-  } = useForm<FormValues>({
+  const { register, getValues, reset } = useForm<FormValues>({
     resolver: yupResolver(emailSchema),
   });
 
@@ -89,11 +95,15 @@ const EmailVerification: React.FC = () => {
   }, [verified, message, navigate]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-950 p-6">
-      <ToastContainer /> {/* ✅ Toastify container */}
-      <div className="w-full max-w-md bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl shadow-2xl p-8">
-        <h2 className="text-3xl font-bold mb-8 text-center text-white">
-          Email Verification
+    <div className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200">
+      {/* Floating background blobs */}
+      <div className="absolute -top-32 -left-32 h-72 w-72 rounded-full bg-gradient-to-br from-pink-400 to-purple-400 opacity-30 blur-3xl animate-pulse"></div>
+      <div className="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-gradient-to-br from-indigo-400 to-pink-500 opacity-30 blur-3xl animate-bounce-slow"></div>
+
+      {/* Card */}
+      <div className="relative z-10 w-full max-w-md rounded-3xl bg-white/90 p-10 shadow-2xl backdrop-blur-md transition-transform duration-500 hover:scale-[1.03] hover:shadow-3xl">
+        <h2 className="mb-6 text-center text-3xl font-extrabold text-indigo-700 drop-shadow-sm">
+          Email verfication
         </h2>
 
         {/* Email Input */}

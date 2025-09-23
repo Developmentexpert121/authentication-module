@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useAppDispatch, useAppSelector } from '../redux/store';
 import { registerUser } from '../redux/EmailverificationSilce';
-import { toast } from 'react-toastify';
+import { toast,ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 // ✅ Yup Schema
@@ -49,48 +49,31 @@ const RegisterForm: React.FC = () => {
   }, [message, error]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-gray-950 p-6">
-      <div className="w-full max-w-md bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl shadow-2xl p-8">
-        <h2 className="text-3xl font-bold mb-8 text-center text-white">Complete Registration</h2>
+  
+<div className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-indigo-200 via-purple-200 to-pink-200">
+  {/* Floating background blobs */}
+  <div className="absolute -top-32 -left-32 h-72 w-72 rounded-full bg-gradient-to-br from-pink-400 to-purple-400 opacity-30 blur-3xl animate-pulse"></div>
+  <div className="absolute -bottom-40 -right-40 h-96 w-96 rounded-full bg-gradient-to-br from-indigo-400 to-pink-500 opacity-30 blur-3xl animate-bounce-slow"></div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Email Field */}
-          <div>
-            <label className="block mb-2 text-gray-300 font-medium">Email</label>
-            <input
-              type="email"
-              {...register('email')}
-              className="w-full px-5 py-3 bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-xl shadow-inner focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
-            />
-            {errors.email && (
-              <p className="mt-2 text-sm text-red-500">{errors.email.message}</p>
-            )}
-          </div>
+  {/* Card */}
+  <div className="relative z-10 w-full max-w-md rounded-3xl bg-white/90 p-10 shadow-2xl backdrop-blur-md transition-transform duration-500 hover:scale-[1.03] hover:shadow-3xl">
+    <h2 className="mb-6 text-center text-3xl font-extrabold text-indigo-700 drop-shadow-sm">
+      Register form
+    </h2> 
 
-          {/* Username Field */}
-          <div>
-            <label className="block mb-2 text-gray-300 font-medium">Username</label>
-            <input
-              type="text"
-              {...register('username')}
-              className="w-full px-5 py-3 bg-gray-700 text-white placeholder-gray-400 border border-gray-600 rounded-xl shadow-inner focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-200"
-            />
-            {errors.username && (
-              <p className="mt-2 text-sm text-red-500">{errors.username.message}</p>
-            )}
-          </div>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+  /*FIELDS_PLACEHOLDER_SIGNIN*/
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full px-5 py-3 bg-purple-600 text-white font-semibold rounded-xl shadow-lg hover:bg-purple-700 active:scale-95 transition-all duration-200 disabled:bg-gray-500"
-          >
-            {loading ? 'Registering...' : 'Register'}
-          </button>
-        </form>
-      </div>
-    </div>
+  <button
+    type="submit"
+    className="w-full rounded-lg bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 py-3 text-lg font-semibold text-white shadow-md transition duration-300 hover:scale-[1.02] hover:shadow-lg"
+  >
+    register 
+  </button>
+</form>
+</div>
+</div>
+
   );
 };
 
