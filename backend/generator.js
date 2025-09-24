@@ -46,55 +46,6 @@ function generateFrontendFields(fields, context, authType) {
     })
     .join('\n');
 }
-// function generateBackendFields(fieldsObj, authType) {
-//   console.log("!!!!!!!!!")
-//   if (!fieldsObj) return '';
-
-//   let allFields = [];
-//   console.log("all filed[]",allFields)
-//   if (authType === 'password') {
-//     allFields = [
-//       ...(fieldsObj.signupFields || []),
-//       ...(fieldsObj.signinFields || []),
-//       ...(fieldsObj.backendFields || []),
-//     ];
-//     console.log("@",authType,allFields)
-//   } else if (authType === 'otp') {
-//     allFields = [...(fieldsObj.registerFields || [])];
-//     console.log("!111",authType,allFields)
-//   }
-
-//   const uniqueFields = [...new Set(allFields)];
-//   console.log("222",uniqueFields)
-//   return uniqueFields
-//     .map((field) => `${field}: { type: String },`)
-//     .join('\n');
-// }
-
-
-
-// function generateMigrationFields(fields, authType) {
-//   return fields.map((field) => {
-//     if (field === 'id') {
-//       return `id: {
-//         allowNull: false,
-//         autoIncrement: true,
-//         primaryKey: true,
-//         type: Sequelize.INTEGER,
-//       },`;
-//     }
-//     if (authType === "otp" && field === "otp") {
-//       return `otp: {
-//         type: Sequelize.STRING,
-//         allowNull: true, // temporary OTP
-//       },`;
-//     }
-//     return `${field}: {
-//         type: Sequelize.STRING,
-//         allowNull: true,
-//       },`;
-//   }).join('\n');
-// }
 
 function generateBackendFields(fieldsObj, authType, dbType = "mongoose") {
   if (!fieldsObj) return '';
@@ -142,38 +93,7 @@ function generateBackendFields(fieldsObj, authType, dbType = "mongoose") {
   return "";
 }
 
-// function generateMigrationFields(fields, authType) {
-//   return fields.map((field) => {
-//     console.log("field is %55555",field, "auth type is ",authType)
-//     if (field === 'id') {
-//       return `id: {
-//         allowNull: false,
-//         autoIncrement: true,
-//         primaryKey: true,
-//         type: Sequelize.INTEGER,
-//       },`;
-//     }
 
-//     if (authType === "password" && field === "password") {
-//       return `password: {
-//         type: Sequelize.STRING,
-//         allowNull: false, // required for password auth
-//       },`;
-//     }
-
-//     if (authType === "otp" && field === "otp") {
-//       return `otp: {
-//         type: Sequelize.STRING,
-//         allowNull: true, // temporary OTP
-//       },`;
-//     }
-
-//     return `${field}: {
-//       type: Sequelize.STRING,
-//       allowNull: true,
-//     },`;
-//   }).join('\n');
-// }
 function generateMigrationFields(fields, authType) {
   console.log("fields77",fields)
   console.log("auth type777",authType)

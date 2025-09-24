@@ -49,7 +49,7 @@ templates/**/node_modules/
 templates/**/dist/
 
 templates/**/.DS_Store
-templates/**/.vite/
+# templates/**/.vite/
 templates/**/build/
 
 # Ignore dynamically generated files like models (if applicable)
