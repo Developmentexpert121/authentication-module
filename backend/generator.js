@@ -46,7 +46,6 @@ function generateFrontendFields(fields, context, authType) {
     })
     .join('\n');
 }
-
 function generateBackendFields(fieldsObj, authType, dbType = "mongoose") {
   if (!fieldsObj) return '';
 
@@ -92,8 +91,6 @@ function generateBackendFields(fieldsObj, authType, dbType = "mongoose") {
 
   return "";
 }
-
-
 function generateMigrationFields(fields, authType) {
   console.log("fields77",fields)
   console.log("auth type777",authType)
@@ -131,8 +128,6 @@ function generateMigrationFields(fields, authType) {
     },`;
   }).join("\n");
 }
-
-
 function isFrontendFile(filePath) {
   const fname = filePath.toLowerCase();
   return (
@@ -251,38 +246,33 @@ async function runGenerator(dbType, authType, fields) {
     console.log('Template path:', templatePath);
     console.log('Output path:', outputPath);
 
-    // Check if template path exists
     if (!fs.existsSync(templatePath)) {
       throw new Error(`Template path does not exist: ${templatePath}`);
     }
 
     console.log('Template path exists, starting copy...');
 
-    // Ensure output directory exists and is empty
     await fse.emptyDir(outputPath);
 
-    // Copy template files
     await fse.copy(templatePath, outputPath, {
       overwrite: true,
       filter: (src) => {
-        // Skip node_modules and other unnecessary files
         return !src.includes('node_modules') && !src.includes('.git');
       },
     });
 
     console.log('Template files copied successfully');
 
-    // Replace placeholders
     console.log('Processing fields in templates...');
     console.log(outputPath);
     await processFolder(outputPath, fields, dbType,authType);
     console.log('Field processing completed');
 
-    console.log("✅ Project generated successfully in 'output' folder!");
+    console.log(" Project generated successfully in 'output' folder!");
 
     return outputPath; 
   } catch (error) {
-    console.error('❌ Error in runGenerator:', error.message);
+    console.error(' Error in runGenerator:', error.message);
     console.error(error.stack);
     throw error;
   }

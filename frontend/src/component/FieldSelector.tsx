@@ -37,6 +37,7 @@ export default function FieldSelector() {
   const [signupFields, setSignupFields] = useState<string[]>(['email', 'password']);
   const [signinFields, setSigninFields] = useState<string[]>(['email', 'password']);
   const [registerFields, setRegisterFields] = useState<string[]>([]);
+    const [loading, setLoading] = useState(false);
   const [dbChoice, setDbChoice] = useState('mongodb');
   const [authType, setAuthType] = useState('password');
 
@@ -69,20 +70,50 @@ export default function FieldSelector() {
       alert('Please select password if you want to use confirm password');
       return;
     }
+    
+    setLoading(true);
+    try{
+     const fieldOrder = ["username", "email", "password", "confirmPassword"];
 
-    const mergedBackend =
-      authType === 'password'
-        ? Array.from(new Set([...signupFields, ...signinFields].filter((f) => f !== 'confirmPassword')))
-        : Array.from(new Set(registerFields.filter((f) => f !== 'confirmPassword')));
+  const sortFields = (fields:any) => {
+    return [...fields].sort((a, b) => {
+      const indexA = fieldOrder.indexOf(a);
+      const indexB = fieldOrder.indexOf(b);
 
-    const allFields = {
-      signup: authType === 'password' ? signupFields : [],
-      signin: authType === 'password' ? signinFields : [],
-      register: authType === 'otp' ? registerFields : [],
-      backend: mergedBackend,
-    };
+      if (indexA !== -1 && indexB !== -1) {
+        return indexA - indexB;
+      } else if (indexA !== -1) {
+        return -1;
+      } else if (indexB !== -1) {
+        return 1;
+      } else {
+        return a.localeCompare(b);
+      }
+    });
+  };
 
-    const response = await fetch('https://authentication-module-dqtd.onrender.com/generate', {
+  const mergedBackend =
+    authType === "password"
+      ? Array.from(
+          new Set(
+            [...signupFields, ...signinFields].filter(
+              (f) => f !== "confirmPassword"
+            )
+          )
+        )
+      : Array.from(new Set(registerFields.filter((f) => f !== "confirmPassword")));
+
+
+  
+
+   const allFields = {
+    signup: authType === "password" ? sortFields(signupFields) : [],
+    signin: authType === "password" ? sortFields(signinFields) : [],
+    register: authType === "otp" ? sortFields(registerFields) : [],
+    backend: sortFields(mergedBackend),
+  };
+
+    const response = await fetch('http://localhost:5000/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ db: dbChoice, auth: authType, fields: allFields }),
@@ -103,6 +134,11 @@ export default function FieldSelector() {
     a.click();
     a.remove();
     window.URL.revokeObjectURL(url);
+     } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false); // <-- stop loader
+    }
   };
 
   const renderFieldSection = (
@@ -216,9 +252,34 @@ export default function FieldSelector() {
         {/* Button */}
         <button
           onClick={generateCode}
-          className="w-full py-3 rounded-xl font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:opacity-90 shadow-md"
+          disabled={loading} // disable during loading
+          className={`w-full py-3 rounded-xl font-semibold bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:opacity-90 shadow-md flex items-center justify-center gap-2 ${
+            loading ? 'opacity-70 cursor-not-allowed' : ''
+          }`}
         >
-          Generate Code
+          {loading && (
+            <svg
+              className="animate-spin h-5 w-5 text-white"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                className="opacity-25"
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="currentColor"
+                strokeWidth="4"
+              ></circle>
+              <path
+                className="opacity-75"
+                fill="currentColor"
+                d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+              ></path>
+            </svg>
+          )}
+          {loading ? 'Generating...' : 'Generate Code'}
         </button>
       </div>
     </div>
