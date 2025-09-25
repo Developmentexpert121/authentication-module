@@ -113,7 +113,7 @@ export default function FieldSelector() {
     backend: sortFields(mergedBackend),
   };
 
-    const response = await fetch('http://localhost:5000/generate', {
+    const response = await fetch('https://authentication-module-dqtd.onrender.com/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ db: dbChoice, auth: authType, fields: allFields }),
